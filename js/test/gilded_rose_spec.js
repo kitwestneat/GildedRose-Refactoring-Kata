@@ -1,9 +1,8 @@
-let expect = require('chai').expect;
-let { Item, Shop } = require('../src/gilded_rose');
+const expect = require('chai').expect;
+const { Item, Shop } = require('../src/gilded_rose');
 
-const BRIE = 'Aged Brie';
-const PASS = 'Backstage passes to a TAFKAL80ETC concert';
-const SULFURAS = 'Sulfuras, Hand of Ragnaros';
+const { BRIE, PASS, SULFURAS } = require('../src/constants');
+
 const FOO = 'foo';
 
 describe('Gilded Rose', function() {
