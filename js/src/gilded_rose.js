@@ -2,35 +2,39 @@ const { BRIE, PASS, SULFURAS, HIGH_QUALITY, LONG_SELL, SHORT_SELL } = require('.
 
 class Item {
   constructor(name, sellIn, quality){
-    console.log('Item constructor', name, sellIn, quality);
     this.name = name;
     this.sellIn = sellIn;
     this.quality = quality;
   }
 }
 
+const deltaFns = {
+  brie: (sellIn) => sellIn < 0 ? 2 : 1,
+  pass: (sellIn) => {
+    if (sellIn < 0) {
+      return -50;
+    } else if (sellIn < SHORT_SELL) {
+      return 3;
+    } else if (sellIn < LONG_SELL) {
+      return 2;
+    } else {
+      return 1;
+    }
+  },
+  other: (sellIn) => sellIn < 0 ? -2 : -1,
+}
+
 function updateItemQuality(item) {
+  let qualityDelta;
+
   if (item.name == BRIE) {
-    if (item.sellIn < 0) {
-      item.quality += 2;
-    } else {
-      item.quality++;
-    }
+    qualityDelta = deltaFns.brie(item.sellIn);
   } else if (item.name == PASS) {
-    if (item.sellIn < 0) {
-      item.quality = 0;
-    } else if (item.sellIn < SHORT_SELL) {
-      item.quality += 3;
-    } else if (item.sellIn < LONG_SELL) {
-      item.quality += 2;
-    } else {
-      item.quality++;
-    }
-  } else if (item.sellIn < 0) {
-    item.quality -= 2;
+    qualityDelta = deltaFns.pass(item.sellIn);
   } else {
-    item.quality--;
+    qualityDelta = deltaFns.other(item.sellIn);
   }
+  item.quality += qualityDelta;
 
   if (item.quality < 0) {
     item.quality = 0;
@@ -45,7 +49,6 @@ function updateItemSellIn(item) {
 
 class Shop {
   constructor(items=[]){
-    console.log('Shop constructor', items);
     this.items = items;
   }
   updateQuality() {
