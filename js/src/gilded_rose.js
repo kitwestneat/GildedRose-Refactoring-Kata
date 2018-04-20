@@ -11,7 +11,11 @@ class Item {
 
 function updateItemQuality(item) {
   if (item.name == BRIE) {
-    item.quality++;
+    if (item.sellIn < 0) {
+      item.quality += 2;
+    } else {
+      item.quality++;
+    }
   } else if (item.name == PASS) {
     if (item.sellIn < 0) {
       item.quality = 0;
@@ -22,7 +26,7 @@ function updateItemQuality(item) {
     } else {
       item.quality++;
     }
-  } else if (item.passedSellby()) {
+  } else if (item.sellIn < 0) {
     item.quality -= 2;
   } else {
     item.quality--;
