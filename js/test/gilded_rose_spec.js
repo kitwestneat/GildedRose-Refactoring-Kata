@@ -83,6 +83,17 @@ describe('Gilded Rose', function() {
       });
     });
     it('short term sell in, high quality', function() {
+      const gildedRose = new Shop([ new Item(PASS, 5, 50) ]);
+
+      const items = gildedRose.updateQuality();
+
+      expect(items[0]).to.deep.equal({
+        name: PASS,
+        sellIn: 4,
+        quality: 50,
+      });
+    });
+    it('medium term sell in, high quality', function() {
       const gildedRose = new Shop([ new Item(PASS, 10, 50) ]);
 
       const items = gildedRose.updateQuality();
@@ -105,6 +116,17 @@ describe('Gilded Rose', function() {
       });
     });
     it('short term sell in, 0 quality', function() {
+      const gildedRose = new Shop([ new Item(PASS, 5, 0) ]);
+
+      const items = gildedRose.updateQuality();
+
+      expect(items[0]).to.deep.equal({
+        name: PASS,
+        sellIn: 4,
+        quality: 3,
+      });
+    });
+    it('medium term sell in, 0 quality', function() {
       const gildedRose = new Shop([ new Item(PASS, 10, 0) ]);
 
       const items = gildedRose.updateQuality();
